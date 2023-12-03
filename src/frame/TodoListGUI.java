@@ -20,7 +20,7 @@ public class TodoListGUI extends JFrame{
     private final JButton addButton;
     private final JButton updateButton;
     private final JButton deleteButton;
-    private Networking network;
+    private final Networking network;
 
     public TodoListGUI() {
         network = new Networking(this);
@@ -30,7 +30,7 @@ public class TodoListGUI extends JFrame{
             JOptionPane.showMessageDialog(this, "Error: " + e, "Error", JOptionPane.ERROR_MESSAGE);
         }
 
-        setTitle("To-Do List");
+        setTitle("To-Do List[Client]");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
