@@ -1,5 +1,5 @@
 package frame;
-
+import Networking.Networking;
 import controller.CRUController;
 import dao.Task;
 import dao.TaskDAO;
@@ -20,8 +20,10 @@ public class TodoListGUI extends JFrame{
     private final JButton addButton;
     private final JButton updateButton;
     private final JButton deleteButton;
+    private Networking network;
 
     public TodoListGUI() {
+        network = new Networking(this);
         try {
             taskDAO = new TaskDAO();
         } catch (Exception e) {
@@ -91,7 +93,7 @@ public class TodoListGUI extends JFrame{
     }
 
 
-    private void refreshTasksView() {
+    public void refreshTasksView() {
         try {
             List<Task> tasks = taskDAO.getAllTasks();
             TaskTableModel model = new TaskTableModel(tasks);
@@ -101,6 +103,9 @@ public class TodoListGUI extends JFrame{
             for (int columnIndex = 0; columnIndex < table.getColumnCount(); columnIndex++) {
                 table.getColumnModel().getColumn(columnIndex).setCellRenderer(centerRenderer);
             }
+            network.sendMessage();
+
+
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error: " + e, "Error", JOptionPane.ERROR_MESSAGE);
@@ -131,6 +136,7 @@ public class TodoListGUI extends JFrame{
             try {
                 taskDAO.updateTask(new Task(id, name, status));
                 refreshTasksView();
+
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Error: " + e, "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -145,6 +151,7 @@ public class TodoListGUI extends JFrame{
             try {
                 taskDAO.deleteTask(id);
                 refreshTasksView();
+
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Error: " + e, "Error", JOptionPane.ERROR_MESSAGE);
             }
